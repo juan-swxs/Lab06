@@ -1,7 +1,8 @@
 package Hilos.Exercise02;
 
-import java.awt.Color;
+import java.awt.Component;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,7 +19,9 @@ public class TragaMonedas extends JFrame {
     private BackgroundPanel panelMain;
     private JPanel panel;
     private JButton button;
+    private Timer rollingTimer;
     private boolean verify = false;
+    private boolean isRolling = false;
 
     public TragaMonedas() {
         setSize(700, 700);
@@ -37,8 +40,8 @@ public class TragaMonedas extends JFrame {
 
         panel = new JPanel();
         panel.setLayout(null);
-        panel.setBackground(new Color(255, 255, 255, 14));
-        panel.setBounds(250, 271, 202, 123);
+        panel.setOpaque(false);
+        panel.setBounds(250, 274, 202, 119);
 
         panelMain.add(panel);
         this.getContentPane().add(panelMain);
@@ -51,8 +54,8 @@ public class TragaMonedas extends JFrame {
         button = new JButton(new ImageIcon(resizedImage));
         button.setBounds(470, 350, 160, 150);
         button.addActionListener(e -> {
-            exchangeImage();
-            starRolling();
+            startRolling();
+            exchangeImage(); 
         });
         panelMain.add(button);
     }
@@ -60,6 +63,7 @@ public class TragaMonedas extends JFrame {
     private void exchangeImage() {
         verify = !verify;
         if (verify) {
+            verify = !verify;
             ImageIcon downImage = new ImageIcon("Images/PalancaInvertida.png");
             Image resizedDown = downImage.getImage().getScaledInstance(160, 150, Image.SCALE_SMOOTH);
             button.setIcon(new ImageIcon(resizedDown));
@@ -71,8 +75,7 @@ public class TragaMonedas extends JFrame {
             button.setBounds(470, 350, 160, 150);
         }
 
-        new Timer(200, e -> {
-            verify = !verify;
+        new Timer(200, e -> {   
             ImageIcon originalImage = new ImageIcon("Images/Palanca.png");
             Image resizedOriginal = originalImage.getImage().getScaledInstance(160, 150, Image.SCALE_SMOOTH);
             button.setIcon(new ImageIcon(resizedOriginal));
@@ -82,9 +85,29 @@ public class TragaMonedas extends JFrame {
 
     }
 
-    private void starRolling() {
-        
-        
+    private void startRolling() {
+        if (!isRolling) {
+            isRolling = true;
+            rollingTimer = new Timer(6, this::moveImages); // Timer para mover las imágenes
+            rollingTimer.start();
+    
+            // Detener el movimiento después de 2 segundos (2000 ms)
+            new Timer(2000, e -> {
+                rollingTimer.stop();
+                isRolling = false;
+            }).start();
+        }
+    }
+    
+    private void moveImages(ActionEvent e) {
+        for (Component label : panel.getComponents()) {
+            int newY = label.getY() + 10;
+            if (newY > panel.getHeight()) {
+                newY = -label.getHeight();
+            }
+            label.setLocation(label.getX(), newY);
+        }
+        panel.repaint(); // Asegura que el panel se redibuje
     }
 
     private void slotMachines_images() {

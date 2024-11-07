@@ -11,8 +11,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import com.formdev.flatlaf.intellijthemes.FlatCarbonIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkIJTheme;
 
+import Hilos.Exercise01.Metodos;
 import Hilos.Exercise02.TragaMonedas;
 
 public class Main {
@@ -23,7 +25,6 @@ public class Main {
         FlatAtomOneDarkIJTheme.setup();
         UIManager.put("Component.focusWidth", 1);
         UIManager.put("Button.arc", 20);
-        UIManager.put("Button.pressedBackground", new Color(72, 77, 89));
 
         String titulo = "Lab06: Hilos";
 
@@ -50,16 +51,23 @@ public class Main {
                     switch (index) {
                         case 0:
                             boton[index].setEnabled(!boton[index].isEnabled());
-
+                            Metodos metodos = new Metodos();
+                            FlatCarbonIJTheme.setup();
+                            UIManager.put("Button.arc", 999);
+                            UIManager.put("Button.borderWidth", -1);
+                            UIManager.put("Button.pressedBackground", new Color(35, 36, 63, 50));
+                            
+                            SwingUtilities.updateComponentTreeUI(metodos);
+                            metodos.setVisible(true);
                             break;
 
                         case 1:
                             boton[index].setEnabled(!boton[index].isEnabled());
+                            TragaMonedas juego = new TragaMonedas();
                             FlatAtomOneDarkIJTheme.setup();
                             UIManager.put("Button.background", new Color(0, 0, 0, 0));
                             UIManager.put("Button.borderWidth", -2);
-                            TragaMonedas juego = new TragaMonedas();
-
+                            
                             SwingUtilities.updateComponentTreeUI(juego);
                             juego.setVisible(true);
                             break;

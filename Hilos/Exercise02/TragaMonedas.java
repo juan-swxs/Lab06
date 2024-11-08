@@ -2,7 +2,6 @@ package Hilos.Exercise02;
 
 import java.awt.Component;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -55,7 +54,7 @@ public class TragaMonedas extends JFrame {
         button.setBounds(470, 350, 160, 150);
         button.addActionListener(e -> {
             startRolling();
-            exchangeImage(); 
+            exchangeImage();
         });
         panelMain.add(button);
     }
@@ -75,7 +74,7 @@ public class TragaMonedas extends JFrame {
             button.setBounds(470, 350, 160, 150);
         }
 
-        new Timer(200, e -> {   
+        new Timer(200, e -> {
             ImageIcon originalImage = new ImageIcon("Images/Palanca.png");
             Image resizedOriginal = originalImage.getImage().getScaledInstance(160, 150, Image.SCALE_SMOOTH);
             button.setIcon(new ImageIcon(resizedOriginal));
@@ -88,26 +87,48 @@ public class TragaMonedas extends JFrame {
     private void startRolling() {
         if (!isRolling) {
             isRolling = true;
-            rollingTimer = new Timer(6, this::moveImages); // Timer para mover las imágenes
+
+            rollingTimer = new Timer(16, e -> moveImages());
             rollingTimer.start();
-    
-            // Detener el movimiento después de 2 segundos (2000 ms)
-            new Timer(2000, e -> {
+
+            new Timer(4000, e -> {
                 rollingTimer.stop();
                 isRolling = false;
+                alignImages();
+                ((Timer) e.getSource()).stop();
             }).start();
         }
     }
-    
-    private void moveImages(ActionEvent e) {
-        for (Component label : panel.getComponents()) {
+
+    private void moveImages() {
+        int imageHeight = 90;
+        int panelHeight = panel.getHeight();
+
+        for (int n = 0; n < panel.getComponentCount(); n++) {
+            Component label = panel.getComponent(n);
             int newY = label.getY() + 10;
-            if (newY > panel.getHeight()) {
-                newY = -label.getHeight();
+
+            if (newY > panelHeight) {
+                newY = -imageHeight;
             }
+
             label.setLocation(label.getX(), newY);
         }
-        panel.repaint(); // Asegura que el panel se redibuje
+
+        panel.repaint();
+    }
+
+    private void alignImages() {
+        int[] initialPositions = { 11, 66, 11, 66, 11, 66 };
+        int xPositions[] = { 10, 10, 80, 80, 144, 144 };
+
+        Component[] components = panel.getComponents();
+
+        for (int z = 0; z < components.length; z++) {
+            components[z].setLocation(xPositions[z], initialPositions[z]);
+        }
+
+        panel.repaint();
     }
 
     private void slotMachines_images() {

@@ -44,9 +44,9 @@ public class Dados extends JFrame {
     }
 
     private void Botones() {
-        Atras.setBounds(0, 0, 60, 60);
+        Atras.setBounds(10, 6, 60, 60);
         Panel_Dados.add(Atras);
-        Iniciar.setBounds(100, 0, 60, 60);
+        Iniciar.setBounds(100, 6,60, 60);
         Panel_Dados.add(Iniciar);
 
         Atras.addActionListener(new ActionListener() {
@@ -65,8 +65,8 @@ public class Dados extends JFrame {
     }
 
     private void setUpDiceImages() {
-        imagenes1.setBounds(150, 100, 100, 100);
-        imagenes2.setBounds(250, 100, 100, 100);
+        imagenes1.setBounds(60, 60, 190, 270);
+        imagenes2.setBounds(260, 60, 190, 270);
 
         // Set initial images to the first face of the dice
         imagenes1.setIcon(Caras_Dados[0]);

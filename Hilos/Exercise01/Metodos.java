@@ -30,9 +30,9 @@ public class Metodos extends JFrame {
         label();
     }
     private void Botones(){
-        Boton_D.setBounds(258, 310, 90, 90);
-        Boton_D.setFont(new Font("serif", Font.ROMAN_BASELINE, 50));
-        Boton_D.setForeground(new Color(33, 36, 63));
+        Boton_D.setBounds(258, 335, 100, 40);
+        Boton_D.setFont(new Font("serif", Font.ROMAN_BASELINE, 30));
+        Boton_D.setForeground(new Color(33, 36, 63, 150));
         Boton_D.setBackground(new Color(250, 250, 250, 90));
         panel.add(Boton_D);
         Boton_D.addActionListener(new ActionListener() {
@@ -48,13 +48,13 @@ public class Metodos extends JFrame {
     private void label() {
         JLabel title = new JLabel("G A M E");
         title.setForeground(Color.WHITE);
-        title.setFont(new Font("Serif", Font.ROMAN_BASELINE, 26));
-        title.setBounds(248, 200, 200, 50);
+        title.setFont(new Font("Serif", Font.BOLD, 26));
+        title.setBounds(248, 216, 200, 50);
 
         JLabel subTitle = new JLabel("I N T O");
         subTitle.setForeground(Color.WHITE);
-        subTitle.setFont(new Font("Serif", Font.ROMAN_BASELINE, 26));
-        subTitle.setBounds(257, 230, 200, 50);
+        subTitle.setFont(new Font("Serif", Font.BOLD, 26));
+        subTitle.setBounds(257, 245, 200, 50);
         
         panel.add(subTitle); 
         panel.add(title);

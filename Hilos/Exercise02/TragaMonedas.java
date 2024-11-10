@@ -21,6 +21,7 @@ public class TragaMonedas extends JFrame {
     private Timer rollingTimer;
     private boolean verify = false;
     private boolean isRolling = false;
+    private ImageIcon[] images;
 
     public TragaMonedas() {
         setSize(700, 700);
@@ -28,9 +29,22 @@ public class TragaMonedas extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
 
+        loadImages();
         changePanel();
         slotMachines_images();
         changeButtons();
+    }
+
+    private void loadImages() {
+        images = new ImageIcon[] {
+            ImageResizer.resizeIcon("Images/ruby.png", 45, 45),
+            ImageResizer.resizeIcon("Images/corazon.png", 43, 43),
+            ImageResizer.resizeIcon("Images/number.png", 40, 45),
+            ImageResizer.resizeIcon("Images/orange.png", 39, 45),
+            ImageResizer.resizeIcon("Images/Time.png", 43, 46),
+            ImageResizer.resizeIcon("Images/Campana.png", 45, 45)
+        };
+
     }
 
     private void changePanel() {
@@ -132,40 +146,22 @@ public class TragaMonedas extends JFrame {
     }
 
     private void slotMachines_images() {
-        ImageIcon ruby = ImageResizer.resizeIcon("Images/ruby.png", 45, 45);
-        Image resizedRuby = ruby.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-
-        ImageIcon heart = ImageResizer.resizeIcon("Images/corazon.png", 43, 43);
-        Image resizedHeart = heart.getImage().getScaledInstance(43, 43, Image.SCALE_SMOOTH);
-
-        ImageIcon number = ImageResizer.resizeIcon("Images/number.png", 40, 45);
-        Image resizedNumber = number.getImage().getScaledInstance(40, 45, Image.SCALE_SMOOTH);
-
-        ImageIcon orange = ImageResizer.resizeIcon("Images/Orange.png", 39, 45);
-        Image resizedOrange = orange.getImage().getScaledInstance(39, 45, Image.SCALE_SMOOTH);
-
-        ImageIcon timer = ImageResizer.resizeIcon("Images/Time.png", 43, 46);
-        Image resizedTimer = timer.getImage().getScaledInstance(43, 46, Image.SCALE_SMOOTH);
-
-        ImageIcon campaign = ImageResizer.resizeIcon("Images/Campana.png", 45, 45);
-        Image resizedCampaign = campaign.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-
-        JLabel labelRuby = new JLabel(new ImageIcon(resizedRuby));
+        JLabel labelRuby = new JLabel(images[0]);
         labelRuby.setBounds(10, 11, 43, 43);
 
-        JLabel labelHeart = new JLabel(new ImageIcon(resizedHeart));
+        JLabel labelHeart = new JLabel(images[1]);
         labelHeart.setBounds(10, 66, 43, 43);
 
-        JLabel labelNumber = new JLabel(new ImageIcon(resizedNumber));
+        JLabel labelNumber = new JLabel(images[2]);
         labelNumber.setBounds(80, 11, 40, 43);
 
-        JLabel labelOrange = new JLabel(new ImageIcon(resizedOrange));
+        JLabel labelOrange = new JLabel(images[3]);
         labelOrange.setBounds(79, 66, 45, 43);
 
-        JLabel labelTimer = new JLabel(new ImageIcon(resizedTimer));
+        JLabel labelTimer = new JLabel(images[4]);
         labelTimer.setBounds(144, 11, 45, 43);
 
-        JLabel labelCampaign = new JLabel(new ImageIcon(resizedCampaign));
+        JLabel labelCampaign = new JLabel(images[5]);
         labelCampaign.setBounds(144, 66, 45, 43);
 
         panel.add(labelRuby);

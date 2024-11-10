@@ -2,6 +2,8 @@ package Hilos.Exercise02;
 
 import java.awt.Component;
 import java.awt.Image;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +24,8 @@ public class TragaMonedas extends JFrame {
     private boolean verify = false;
     private boolean isRolling = false;
     private ImageIcon[] images;
+    private List<HilosTragamonedas> slotThreads;
+    private List<Thread> threads;
 
     public TragaMonedas() {
         setSize(700, 700);
@@ -33,6 +37,9 @@ public class TragaMonedas extends JFrame {
         changePanel();
         slotMachines_images();
         changeButtons();
+        
+        slotThreads = new ArrayList<>();
+        threads = new ArrayList<>();
     }
 
     private void loadImages() {
@@ -105,12 +112,30 @@ public class TragaMonedas extends JFrame {
             rollingTimer = new Timer(16, e -> moveImages());
             rollingTimer.start();
 
+            for(Component comp : panel.getComponents()) {
+                JLabel label = (JLabel) comp;
+                HilosTragamonedas slotThread = new HilosTragamonedas(label, images);
+                slotThreads.add(slotThread);
+
+                Thread thread = new Thread(slotThread);
+                threads.add(thread);
+                thread.start();
+            }
+
             new Timer(4000, e -> {
                 rollingTimer.stop();
                 isRolling = false;
                 alignImages();
+                stopRolling();
                 ((Timer) e.getSource()).stop();
             }).start();
+        }
+    }
+
+    private void stopRolling() {
+        isRolling = false;
+        for(HilosTragamonedas n : slotThreads) {
+            n.stopRolling();
         }
     }
 

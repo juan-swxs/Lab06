@@ -2,13 +2,18 @@ package Hilos.Exercise02;
 
 import java.awt.Component;
 import java.awt.Image;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -26,6 +31,7 @@ public class TragaMonedas extends JFrame {
     private ImageIcon[] images;
     private List<HilosTragamonedas> slotThreads;
     private List<Thread> threads;
+    private Clip sound;
 
     public TragaMonedas() {
         setSize(700, 700);
@@ -76,6 +82,7 @@ public class TragaMonedas extends JFrame {
         button.addActionListener(e -> {
             startRolling();
             exchangeImage();
+            playSound("Sounds/TragaPerras.wav");
         });
         panelMain.add(button);
     }
@@ -122,7 +129,7 @@ public class TragaMonedas extends JFrame {
                 thread.start();
             }
 
-            new Timer(4000, e -> {
+            new Timer(3500, e -> {
                 rollingTimer.stop();
                 isRolling = false;
                 alignImages();
@@ -159,7 +166,7 @@ public class TragaMonedas extends JFrame {
 
     private void alignImages() {
         int[] initialPositions = { 11, 66, 11, 66, 11, 66 };
-        int xPositions[] = { 10, 10, 80, 80, 144, 144 };
+        int xPositions[] = { 10, 10, 80, 79, 144, 144 };
 
         Component[] components = panel.getComponents();
 
@@ -178,7 +185,7 @@ public class TragaMonedas extends JFrame {
         labelHeart.setBounds(10, 66, 43, 43);
 
         JLabel labelNumber = new JLabel(images[2]);
-        labelNumber.setBounds(80, 11, 40, 43);
+        labelNumber.setBounds(80, 11, 43, 43);
 
         JLabel labelOrange = new JLabel(images[3]);
         labelOrange.setBounds(79, 66, 45, 43);
@@ -195,6 +202,19 @@ public class TragaMonedas extends JFrame {
         panel.add(labelOrange);
         panel.add(labelTimer);
         panel.add(labelCampaign);
+    }
+
+    private void playSound(String archivoSonido) {
+        try {
+            if (sound == null || !sound.isRunning()) {
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(archivoSonido).getAbsoluteFile());
+                sound = AudioSystem.getClip();
+                sound.open(audioInputStream);
+                sound.start();
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al reproducir el sonido", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }

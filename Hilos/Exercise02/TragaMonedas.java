@@ -38,14 +38,17 @@ public class TragaMonedas extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
+        startComponents();
+        
+        slotThreads = new ArrayList<>();
+        threads = new ArrayList<>();
+    }
 
+    private void startComponents() {
         loadImages();
         changePanel();
         slotMachines_images();
         changeButtons();
-        
-        slotThreads = new ArrayList<>();
-        threads = new ArrayList<>();
     }
 
     private void loadImages() {
@@ -132,8 +135,8 @@ public class TragaMonedas extends JFrame {
             new Timer(3500, e -> {
                 rollingTimer.stop();
                 isRolling = false;
+                stopRolling(); 
                 alignImages();
-                stopRolling();
                 ((Timer) e.getSource()).stop();
             }).start();
         }
@@ -205,16 +208,18 @@ public class TragaMonedas extends JFrame {
     }
 
     private void playSound(String archivoSonido) {
-        try {
-            if (sound == null || !sound.isRunning()) {
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(archivoSonido).getAbsoluteFile());
-                sound = AudioSystem.getClip();
-                sound.open(audioInputStream);
-                sound.start();
+        new Thread(() -> {
+            try {
+                if (sound == null || !sound.isRunning()) {
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(archivoSonido).getAbsoluteFile());
+                    sound = AudioSystem.getClip();
+                    sound.open(audioInputStream);
+                    sound.start();
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error al reproducir el sonido", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al reproducir el sonido", "ERROR", JOptionPane.ERROR_MESSAGE);
-        }
+        }).start();
     }
 
 }

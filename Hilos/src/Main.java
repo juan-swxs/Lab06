@@ -20,7 +20,7 @@ import Hilos.Exercise02.TragaMonedas;
 public class Main {
     public static JFrame frame;
     public static JButton[] boton;
-
+             
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
         FlatAtomOneDarkIJTheme.setup();
         UIManager.put("Component.focusWidth", 1);
